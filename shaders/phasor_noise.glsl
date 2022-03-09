@@ -17,7 +17,7 @@ layout(location = 0) out vec4 outColor;
 in vec3 fragPos; // World-space position
 in vec3 fragNormal; // World-space normal
 
-vec2 fragCoord = fragPos.xy;
+vec2 fragCoord = fragPos.xz;
 
 //phasor noise parameters
 //float _f = 10.0;

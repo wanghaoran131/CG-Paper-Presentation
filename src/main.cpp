@@ -50,7 +50,7 @@ int main(int argc, char** argv)
     printHelp();
 
     Window window { "Shading", glm::ivec2(WIDTH, HEIGHT), OpenGLVersion::GL45 };
-    Trackball trackball { &window, glm::radians(50.0f) };
+    Trackball trackball { &window, glm::radians(150.0f) };
 
     const Mesh mesh = loadMesh(argc == 2 ? argv[1] : "resources/brick_path.obj")[0];
 
@@ -101,7 +101,7 @@ int main(int argc, char** argv)
             std::cout << "PHASOR NOISE!" << std::endl;
             std::cout << "f = " << f << std::endl;
             std::cout << "b = " << b << std::endl;
-            std::cout << "o = " << ipk << std::endl;
+            std::cout << "ipk = " << ipk << std::endl;
             std::cout << "__________________" << std::endl;
         }
         
@@ -216,7 +216,7 @@ int main(int argc, char** argv)
                     //uniform vec3      iResolution;           // viewport resolution (in pixels)
                     //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
                     //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    glm::vec3 placeholder3 = glm::vec3(0.5f, 0.5f, 0.5f);
+                    glm::vec3 placeholder3 = glm::vec3(3.0f, 3.0f, 3.0f);
                     glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
                     glUniform3fv(10, 1, glm::value_ptr(placeholder3));
                     glUniform4fv(11, 1, glm::value_ptr(placeholder4));
@@ -250,18 +250,6 @@ int main(int argc, char** argv)
     glDeleteVertexArrays(1, &vao);
 
     return 0;
-}
-
-
-
-static size_t getClosestVertexIndex(const Mesh& mesh, const glm::vec3& pos)
-{
-    const auto iter = std::min_element(
-        std::begin(mesh.vertices), std::end(mesh.vertices),
-        [&](const Vertex& lhs, const Vertex& rhs) {
-            return glm::length(lhs.position - pos) < glm::length(rhs.position - pos);
-        });
-    return std::distance(std::begin(mesh.vertices), iter);
 }
 
 static std::optional<glm::vec3> getWorldPositionOfPixel(const Trackball& trackball, const glm::vec2& pixel)
@@ -302,6 +290,6 @@ static void printHelp()
     std::cout << "3 - Decrease f by 1.0" << std::endl;
     std::cout << "4 - Increase b by 1.0" << std::endl;
     std::cout << "5 - Decrease b by 1.0" << std::endl;
-    std::cout << "6 - Increase o by 1.0" << std::endl;
-    std::cout << "7 - Decrease o by 1.0" << std::endl;
+    std::cout << "6 - Increase ipk by 1.0" << std::endl;
+    std::cout << "7 - Decrease ipk by 1.0" << std::endl;
 }
