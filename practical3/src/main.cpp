@@ -90,7 +90,7 @@ int main(int argc, char** argv)
     });
 
     const Shader debugShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/debug_frag.glsl").build();
-    const Shader xToonShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/xtoon_frag.glsl").build();
+    const Shader phasorNoiseShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/phasor_noise.glsl").build();
 
     // Create Vertex Buffer Object and Index Buffer Objects.
     GLuint vbo;
@@ -119,7 +119,7 @@ int main(int argc, char** argv)
 
     // Load image from disk to CPU memory.
     int width, height, sourceNumChannels; // Number of channels in source image. pixels will always be the requested number of channels (3).
-    stbi_uc* pixels = stbi_load("resources/toon_map.png", &width, &height, &sourceNumChannels, STBI_rgb);
+    stbi_uc* pixels = stbi_load("resources/blue_map.png", &width, &height, &sourceNumChannels, STBI_rgb);
 
     // Create a texture on the GPU with 3 channels with 8 bits each.
     GLuint texToon;
@@ -190,7 +190,7 @@ int main(int argc, char** argv)
             renderedSomething = false;
             if (!renderedSomething) {
                 if (phasorNoise) {
-                    xToonShader.bind();
+                    phasorNoiseShader.bind();
 
                     glActiveTexture(GL_TEXTURE0);
                     glBindTexture(GL_TEXTURE_2D, texToon);

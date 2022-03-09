@@ -93,7 +93,7 @@ build rebuild_cache: phony CMakeFiles\rebuild_cache.util
 #############################################
 # Utility command for copy_shaders
 
-build copy_shaders: phony CMakeFiles\copy_shaders shaders\debug_frag.glsl shaders\vertex.glsl shaders\xtoon_frag.glsl
+build copy_shaders: phony CMakeFiles\copy_shaders shaders\debug_frag.glsl shaders\phasor_noise.glsl shaders\vertex.glsl
 
 
 #############################################
@@ -140,7 +140,7 @@ build list_install_components: phony
 #############################################
 # Phony custom command for CMakeFiles\copy_shaders
 
-build CMakeFiles\copy_shaders | ${cmake_ninja_workdir}CMakeFiles\copy_shaders: phony shaders\debug_frag.glsl shaders\vertex.glsl shaders\xtoon_frag.glsl
+build CMakeFiles\copy_shaders | ${cmake_ninja_workdir}CMakeFiles\copy_shaders: phony shaders\debug_frag.glsl shaders\phasor_noise.glsl shaders\vertex.glsl
 
 
 #############################################
@@ -153,20 +153,20 @@ build shaders\debug_frag.glsl | ${cmake_ninja_workdir}shaders\debug_frag.glsl: C
 
 
 #############################################
+# Custom command for shaders\phasor_noise.glsl
+
+build shaders\phasor_noise.glsl | ${cmake_ninja_workdir}shaders\phasor_noise.glsl: CUSTOM_COMMAND ..\..\..\shaders\phasor_noise.glsl
+  COMMAND = cmd.exe /C "cd /D "D:\D Bureau\TUD\Courses\Q3\IN4152 3D Computer Graphics and Animations\CG-Paper-Presentation\practical3\out\build\x64-Debug" && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/shaders/phasor_noise.glsl" "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/shaders/phasor_noise.glsl""
+  DESC = Generating shaders/phasor_noise.glsl
+  restat = 1
+
+
+#############################################
 # Custom command for shaders\vertex.glsl
 
 build shaders\vertex.glsl | ${cmake_ninja_workdir}shaders\vertex.glsl: CUSTOM_COMMAND ..\..\..\shaders\vertex.glsl
   COMMAND = cmd.exe /C "cd /D "D:\D Bureau\TUD\Courses\Q3\IN4152 3D Computer Graphics and Animations\CG-Paper-Presentation\practical3\out\build\x64-Debug" && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/shaders/vertex.glsl" "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/shaders/vertex.glsl""
   DESC = Generating shaders/vertex.glsl
-  restat = 1
-
-
-#############################################
-# Custom command for shaders\xtoon_frag.glsl
-
-build shaders\xtoon_frag.glsl | ${cmake_ninja_workdir}shaders\xtoon_frag.glsl: CUSTOM_COMMAND ..\..\..\shaders\xtoon_frag.glsl
-  COMMAND = cmd.exe /C "cd /D "D:\D Bureau\TUD\Courses\Q3\IN4152 3D Computer Graphics and Animations\CG-Paper-Presentation\practical3\out\build\x64-Debug" && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/shaders/xtoon_frag.glsl" "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/shaders/xtoon_frag.glsl""
-  DESC = Generating shaders/xtoon_frag.glsl
   restat = 1
 
 # =============================================================================
