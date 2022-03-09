@@ -1,7 +1,7 @@
-prefix=D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/install/x64-Debug
+prefix=D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/install/x64-Debug
 exec_prefix=${prefix}
-includedir=D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/install/x64-Debug/include
-libdir=D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/install/x64-Debug/lib
+includedir=D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/install/x64-Debug/include
+libdir=D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/install/x64-Debug/lib
 
 Name: GLFW
 Description: A multi-platform library for OpenGL, window and input

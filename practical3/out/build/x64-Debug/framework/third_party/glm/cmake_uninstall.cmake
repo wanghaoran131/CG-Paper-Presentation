@@ -1,8 +1,8 @@
-if(NOT EXISTS "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/install_manifest.txt")
-  message(FATAL_ERROR "Cannot find install manifest: D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/install_manifest.txt")
+if(NOT EXISTS "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/install_manifest.txt")
+  message(FATAL_ERROR "Cannot find install manifest: D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/install_manifest.txt")
 endif()
 
-file(READ "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/install_manifest.txt" files)
+file(READ "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 foreach(file ${files})
   message(STATUS "Uninstalling $ENV{DESTDIR}${file}")

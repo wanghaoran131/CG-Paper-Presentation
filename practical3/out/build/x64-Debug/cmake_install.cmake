@@ -1,8 +1,8 @@
-# Install script for directory: D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3
+# Install script for directory: D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/framework/cmake_install.cmake")
+  include("D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/framework/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

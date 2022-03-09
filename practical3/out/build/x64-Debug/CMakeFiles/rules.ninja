@@ -218,7 +218,7 @@ rule CXX_STATIC_LIBRARY_LINKER__nativefiledialog_Debug
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -S"D:\D Bureau\TUD\Courses\Q3\IN4152 3D Computer Graphics and Animations\codes\practical3" -B"D:\D Bureau\TUD\Courses\Q3\IN4152 3D Computer Graphics and Animations\codes\practical3\out\build\x64-Debug"
+  command = "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -S"D:\D Bureau\TUD\Courses\Q3\IN4152 3D Computer Graphics and Animations\CG-Paper-Presentation\practical3" -B"D:\D Bureau\TUD\Courses\Q3\IN4152 3D Computer Graphics and Animations\CG-Paper-Presentation\practical3\out\build\x64-Debug"
   description = Re-running CMake...
   generator = 1
 

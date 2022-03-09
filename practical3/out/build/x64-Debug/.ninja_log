@@ -1,68 +1,52 @@
 # ninja log v5
-9278	16175	6685179006587281	framework/third_party/fmt/CMakeFiles/fmt.dir/src/format.cc.obj	788954a3e31ed985
-7479	14424	6685178989287256	framework/third_party/fmt/CMakeFiles/fmt.dir/src/os.cc.obj	4825d00ccecd1b32
-8	347	6685178847927250	shaders/light_vertex.glsl	823b3bbd467e84ee
-623	1326	6685178857207232	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/shaders/toon_specular_frag.glsl	864daf943d557c1c
-24132	26034	6685179105547235	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_impl_opengl3.cpp.obj	7e941b354212ca88
-8	347	6685178847927250	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/shaders/light_vertex.glsl	823b3bbd467e84ee
-474	1079	6685178854497236	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/shaders/phong_frag.glsl	2e9cb1576ae6ea01
-12	140	6685200206929814	shaders/lambert_frag.glsl	532bd306e06d9cf4
-137	608	6685178850117241	shaders/debug_frag.glsl	184f23db62a9b844
-14	129	6685208672254047	shaders/xtoon_frag.glsl	a593732be393cff0
-12	140	6685200206929814	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/shaders/lambert_frag.glsl	532bd306e06d9cf4
-557	1284	6685178856717231	shaders/toon_diffuse_frag.glsl	2ae46f27d49cfc4e
-10	4997	6685232796394052	CMakeFiles/Practical4.dir/src/main.cpp.obj	4f852d02a715d5fa
-28137	28462	6685179128467231	framework/CGFramework.lib	2af7d409441ca866
-45	542	6685178849367245	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/shaders/blinn_phong_frag.glsl	43f1dbe60dc96894
-26904	27372	6685179116887242	framework/third_party/imgui/imgui.lib	d56316932cf07a94
-45	542	6685178849367245	shaders/blinn_phong_frag.glsl	43f1dbe60dc96894
-22411	24831	6685179093287245	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_widgets.cpp.obj	eb1e7d8b3406b2ea
-137	608	6685178850117241	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/shaders/debug_frag.glsl	184f23db62a9b844
-24832	27503	6685179120327261	framework/third_party/nativefiledialog/CMakeFiles/nativefiledialog.dir/src/nfd_win.cpp.obj	444baa8a8e66f79f
-75	744	6685178850697232	shaders/light_frag.glsl	81160dbdfc0377b0
-27504	28136	6685179121837242	framework/third_party/nativefiledialog/nativefiledialog.lib	ab41aee4902ee0
-75	744	6685178850697232	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/shaders/light_frag.glsl	81160dbdfc0377b0
-185	842	6685178851237233	shaders/vertex.glsl	59119653b41534d1
-474	1079	6685178854497236	shaders/phong_frag.glsl	2e9cb1576ae6ea01
-14020	15419	6685178992527266	framework/third_party/tinyobjloader/tinyobjloader.lib	f0158164d2a4c3cc
-185	842	6685178851237233	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/shaders/vertex.glsl	59119653b41534d1
-16176	17175	6685179011847278	framework/third_party/fmt/fmt.lib	795f8b6919fe4c07
-14	129	6685208672254047	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/shaders/xtoon_frag.glsl	a593732be393cff0
-557	1284	6685178856717231	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/out/build/x64-Debug/shaders/toon_diffuse_frag.glsl	2ae46f27d49cfc4e
-978	11373	6685178958317255	framework/CMakeFiles/CGFramework.dir/src/image.cpp.obj	ba332f230d271691
-16819	17496	6685179017487294	framework/third_party/glad/glad.lib	4a4789e27dfc7d69
-623	1326	6685178857207232	shaders/toon_specular_frag.glsl	864daf943d557c1c
-1079	3901	6685178883937299	framework/CMakeFiles/CGFramework.dir/src/ImGuizmo/ImGuizmo.cpp.obj	b4f2f0af04356b6d
-23838	26903	6685179114327242	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_impl_glfw.cpp.obj	c15e8bccc74f6a7b
-1284	7477	6685178919627268	framework/CMakeFiles/CGFramework.dir/src/window.cpp.obj	4ffac15383a312db
-14425	16684	6685179012087245	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/monitor.c.obj	eece84c4edbcc29f
-1336	8544	6685178930627267	framework/CMakeFiles/CGFramework.dir/src/imguizmo.cpp.obj	bf58ddd2cdca86e9
-744	9277	6685178937457252	framework/CMakeFiles/CGFramework.dir/src/trackball.cpp.obj	b7a60ae4387ae98c
-19482	21283	6685179057577236	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_thread.c.obj	ade704dfc680411f
-852	13566	6685178979197250	framework/CMakeFiles/CGFramework.dir/src/mesh.cpp.obj	4128e393f999c385
-17565	19481	6685179040017373	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/window.c.obj	2ed179ddd510567e
-8560	14017	6685178985087238	framework/third_party/tinyobjloader/CMakeFiles/tinyobjloader.dir/src/tiny_obj_loader.cc.obj	c2ed08fa4ad5294d
-13567	16819	6685179013187275	framework/third_party/glad/CMakeFiles/glad.dir/src/glad.c.obj	72ce0d8d91b322c8
-15420	17563	6685179020607265	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/context.c.obj	ea53bd5db76ed397
-17497	18783	6685179032877267	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_time.c.obj	b788e55ba03b7004
-3914	17140	6685179016547240	framework/CMakeFiles/CGFramework.dir/src/shader.cpp.obj	1f66906c0ca0cf1e
-16685	18593	6685179031207247	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/init.c.obj	e6df423c306adcc8
-20322	22238	6685179066977275	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_window.c.obj	fadd0fccc714759c
-17183	18848	6685179033237245	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/vulkan.c.obj	c63ea0edef7c2b2b
-17141	18893	6685179033427404	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/input.c.obj	cd940fde6a34a84e
-18785	20312	6685179048247253	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_joystick.c.obj	1a8a5b5db8525215
-18855	20406	6685179049137241	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_monitor.c.obj	16c7b3e51db6caf3
-20453	23232	6685179077327245	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/egl_context.c.obj	d82c6d98568f448
-18894	20449	6685179049257243	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/wgl_context.c.obj	90ca0c66756108fb
-18594	20800	6685179052927260	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_init.c.obj	64bde86896bd62cc
-20406	22309	6685179068157245	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/osmesa_context.c.obj	bd1a9fb3f5adc48e
-20800	22411	6685179068207260	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_demo.cpp.obj	712f13aca9935388
-21284	23146	6685179076397251	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_tables.cpp.obj	a8ddbf5a7aaaaea5
-23147	23820	6685179083287257	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_impl_opengl2.cpp.obj	8a22329e9eccc7c7
-23233	24131	6685179083827248	framework/third_party/glfw3/src/glfw3.lib	93cca96bb7adcaf1
-22310	24701	6685179091107254	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_draw.cpp.obj	f2a63c3106b1a74c
-24704	25269	6685179097847259	framework/third_party/nativefiledialog/CMakeFiles/nativefiledialog.dir/src/nfd_common.c.obj	35c94a753394366c
-22239	26376	6685179109017273	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui.cpp.obj	1f0c4d8633ea4470
-4999	7179	6685232804094042	Practical4.exe	858f1b148a7df524
-13	4938	6685236301464678	CMakeFiles/Practical4.dir/src/main.cpp.obj	4f852d02a715d5fa
-4940	9978	6685236333584637	Practical4.exe	858f1b148a7df524
+38	425	6685242987434414	shaders/xtoon_frag.glsl	16477983558b1a92
+38	425	6685242987434414	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/shaders/xtoon_frag.glsl	16477983558b1a92
+8	468	6685242987814405	shaders/debug_frag.glsl	4b234678bc5a356b
+8	468	6685242987814405	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/shaders/debug_frag.glsl	4b234678bc5a356b
+129	501	6685242987964401	shaders/vertex.glsl	201d0ad12e0b4bad
+129	501	6685242987964401	D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/CG-Paper-Presentation/practical3/out/build/x64-Debug/shaders/vertex.glsl	201d0ad12e0b4bad
+215	6828	6685243051324407	framework/CMakeFiles/CGFramework.dir/src/window.cpp.obj	5cc60aa5b8acb67f
+503	7046	6685243052394398	framework/CMakeFiles/CGFramework.dir/src/imguizmo.cpp.obj	717664cf0a3174c1
+171	7209	6685243054834415	framework/CMakeFiles/CGFramework.dir/src/trackball.cpp.obj	f05723cd86998e55
+6895	8996	6685243073324489	framework/CMakeFiles/CGFramework.dir/src/ImGuizmo/ImGuizmo.cpp.obj	50e01f80bf8dcff1
+434	9548	6685243078414404	framework/CMakeFiles/CGFramework.dir/src/image.cpp.obj	a86fe614d3d8ff49
+7052	11539	6685243099144399	framework/third_party/glad/CMakeFiles/glad.dir/src/glad.c.obj	4bf64c2550b0d2a9
+468	12250	6685243106364413	framework/CMakeFiles/CGFramework.dir/src/shader.cpp.obj	93240d2bd9610299
+80	12743	6685243110774397	framework/CMakeFiles/CGFramework.dir/src/mesh.cpp.obj	674413c8ec57cf28
+11540	12954	6685243112434425	framework/third_party/glad/glad.lib	4a4789e27dfc7d69
+7209	13863	6685243122434416	framework/third_party/fmt/CMakeFiles/fmt.dir/src/format.cc.obj	6de7e590149cb2d5
+12744	15066	6685243134344401	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/egl_context.c.obj	2746df82813f0949
+12955	15129	6685243134624519	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/osmesa_context.c.obj	44732e9cac4a9c25
+9549	15264	6685243135974411	framework/third_party/tinyobjloader/CMakeFiles/tinyobjloader.dir/src/tiny_obj_loader.cc.obj	f947b29398b89cc6
+8999	15758	6685243141314407	framework/third_party/fmt/CMakeFiles/fmt.dir/src/os.cc.obj	328aebb28d9f8d76
+13864	16307	6685243147004411	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/wgl_context.c.obj	1ab027df978f6a28
+15265	16381	6685243144454628	framework/third_party/tinyobjloader/tinyobjloader.lib	f0158164d2a4c3cc
+15759	16413	6685243145844397	framework/third_party/fmt/fmt.lib	795f8b6919fe4c07
+15067	16962	6685243153374397	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/input.c.obj	ed34d8e50bd94f95
+15138	17023	6685243153844409	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/context.c.obj	728bc2e8721ea4aa
+16307	18082	6685243164724403	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/init.c.obj	2ed8db127028cc82
+16418	18204	6685243165844459	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_init.c.obj	ebc305e2ba834fd
+16382	18296	6685243166594405	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/vulkan.c.obj	a38a8a16ec446545
+16964	18736	6685243171194440	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/monitor.c.obj	d7dfa963ab9b2a43
+17024	18843	6685243172184406	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_monitor.c.obj	f5814fff41536b4a
+18084	19747	6685243181194393	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_joystick.c.obj	d99ce37826b49141
+18205	19779	6685243181134408	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/window.c.obj	94867c4b224c2b69
+18297	20215	6685243185284400	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_window.c.obj	1cb4b44782128d1e
+18742	20496	6685243188554415	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_thread.c.obj	36c00a024c954273
+18848	20672	6685243190154471	framework/third_party/glfw3/src/CMakeFiles/glfw.dir/win32_time.c.obj	9f97acd3a75be065
+19780	21550	6685243198974422	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_tables.cpp.obj	15afa72b38344cc8
+19748	21588	6685243199404404	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_draw.cpp.obj	742eaee00879c1c5
+20674	21989	6685243199864445	framework/third_party/glfw3/src/glfw3.lib	93cca96bb7adcaf1
+20221	22058	6685243203874400	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_demo.cpp.obj	da715e04f7d80cf2
+21588	22667	6685243210444427	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_impl_opengl2.cpp.obj	abfa1366e3c7bb25
+12251	23314	6685243216974409	CMakeFiles/Practical4.dir/src/main.cpp.obj	ca36b88d9159311a
+22668	23352	6685243217264404	framework/third_party/nativefiledialog/CMakeFiles/nativefiledialog.dir/src/nfd_common.c.obj	5385e098b66fb6b9
+21550	23907	6685243222834396	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_widgets.cpp.obj	265961007769150e
+20498	24509	6685243229014399	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui.cpp.obj	256ec96e34f6b4f8
+22067	24541	6685243229434442	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_impl_opengl3.cpp.obj	4c35c6717989752c
+21989	25040	6685243234454402	framework/third_party/imgui/CMakeFiles/imgui.dir/src/imgui_impl_glfw.cpp.obj	ef20a89b3e21e6db
+25041	25355	6685243236614407	framework/third_party/imgui/imgui.lib	d56316932cf07a94
+23316	25920	6685243243304389	framework/third_party/nativefiledialog/CMakeFiles/nativefiledialog.dir/src/nfd_win.cpp.obj	ccd397646bb1b20c
+25921	26095	6685243244724431	framework/third_party/nativefiledialog/nativefiledialog.lib	ab41aee4902ee0
+26097	26449	6685243247314412	framework/CGFramework.lib	2af7d409441ca866
+26450	30428	6685243274079630	Practical4.exe	9a2b64c2595d8b69
