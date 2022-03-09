@@ -7,6 +7,8 @@ layout (location = 2) uniform sampler2D tex;
 layout (location = 10) uniform vec3 iResolution;
 layout (location = 11) uniform vec4 iMouse;
 layout (location = 12) uniform float _f;
+layout (location = 13) uniform float _b;
+layout (location = 14) uniform int _impPerKernel;
 
 // Output for on-screen color
 layout(location = 0) out vec4 outColor;
@@ -19,10 +21,10 @@ vec2 fragCoord = fragPos.xy;
 
 //phasor noise parameters
 //float _f = 10.0;
-float _b = 2.0;
-float _o = 1.0;
+//float _b = 2.0;
+//float _o = 8.0;
 float _kr;
-int _impPerKernel = 16;
+//int _impPerKernel = 16;
 int _seed = 1;
 
 vec2 uv;

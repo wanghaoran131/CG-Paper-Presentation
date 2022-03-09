@@ -38,11 +38,11 @@ const int HEIGHT = 800;
 bool debug = false;
 bool phasorNoise = false;
 
-static size_t getClosestVertexIndex(const Mesh& mesh, const glm::vec3& pos);
-static std::optional<glm::vec3> getWorldPositionOfPixel(const Trackball&, const glm::vec2& pixel);
 static void printHelp();
 
 float f = 10.0f;
+float b = 10.0f;
+int ipk = 10.0f;
 
 // Program entry point. Everything starts here.
 int main(int argc, char** argv)
@@ -69,12 +69,28 @@ int main(int argc, char** argv)
             phasorNoise = !phasorNoise;
             break;
         }
-        case GLFW_KEY_7: {
-            f += 5.0f;
+        case GLFW_KEY_2: {
+            f += 1.0f;
             break;
         }
-        case GLFW_KEY_8: {
-            f -= 5.0f;
+        case GLFW_KEY_3: {
+            f -= 1.0;
+            break;
+        }
+        case GLFW_KEY_4: {
+            b += 1.0;
+            break;
+        }
+        case GLFW_KEY_5: {
+            b -= 1.0;
+            break;
+        }
+        case GLFW_KEY_6: {
+            ipk += 1;
+            break;
+        }
+        case GLFW_KEY_7: {
+            ipk -= 1;
             break;
         }
         default:
@@ -84,6 +100,8 @@ int main(int argc, char** argv)
         if (phasorNoise) {
             std::cout << "PHASOR NOISE!" << std::endl;
             std::cout << "f = " << f << std::endl;
+            std::cout << "b = " << b << std::endl;
+            std::cout << "o = " << ipk << std::endl;
             std::cout << "__________________" << std::endl;
         }
         
@@ -119,7 +137,7 @@ int main(int argc, char** argv)
 
     // Load image from disk to CPU memory.
     int width, height, sourceNumChannels; // Number of channels in source image. pixels will always be the requested number of channels (3).
-    stbi_uc* pixels = stbi_load("resources/blue_map.png", &width, &height, &sourceNumChannels, STBI_rgb);
+    stbi_uc* pixels = stbi_load("resources/random_try.png", &width, &height, &sourceNumChannels, STBI_rgb);
 
     // Create a texture on the GPU with 3 channels with 8 bits each.
     GLuint texToon;
@@ -152,7 +170,7 @@ int main(int argc, char** argv)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Set model/view/projection matrix.
-        const glm::vec3 cameraPos = trackball.position();
+        const glm::vec3 cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
         const glm::mat4 model { 1.0f };
         const glm::mat4 view = trackball.viewMatrix();
         const glm::mat4 projection = trackball.projectionMatrix();
@@ -199,10 +217,12 @@ int main(int argc, char** argv)
                     //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
                     //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
                     glm::vec3 placeholder3 = glm::vec3(0.5f, 0.5f, 0.5f);
-                    glm::vec3 placeholder4 = glm::vec4(1.0f, 3.5f, 0.0f, 1.0f);
+                    glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
                     glUniform3fv(10, 1, glm::value_ptr(placeholder3));
                     glUniform4fv(11, 1, glm::value_ptr(placeholder4));
                     glUniform1f(12, f);
+                    glUniform1f(13, b);
+                    glUniform1i(14, ipk);
                     render();
                 }
             }
@@ -278,6 +298,10 @@ static void printHelp()
     std::cout << "0 - activate Debug" << std::endl;
     std::cout << "______________________" << std::endl;
     std::cout << "1 - Phasor noise" << std::endl;
-    std::cout << "7 - Increase f by 5.0" << std::endl;
-    std::cout << "8 - Decrease f by 5.0" << std::endl;
+    std::cout << "2 - Increase f by 1.0" << std::endl;
+    std::cout << "3 - Decrease f by 1.0" << std::endl;
+    std::cout << "4 - Increase b by 1.0" << std::endl;
+    std::cout << "5 - Decrease b by 1.0" << std::endl;
+    std::cout << "6 - Increase o by 1.0" << std::endl;
+    std::cout << "7 - Decrease o by 1.0" << std::endl;
 }
