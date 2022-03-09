@@ -1,0 +1,250 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "Practical4.exe"
+		},
+		{
+			"path" : "Practical4.pdb"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"_add_executable",
+			"add_executable",
+			"target_link_libraries",
+			"add_dependencies",
+			"target_compile_features"
+		],
+		"files" : 
+		[
+			"D:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 18,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 540,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 20,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 54,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 19,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1"
+				},
+				{
+					"fragment" : "-std:c++20"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/framework/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/framework/third_party/glad/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/framework/third_party/glm"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/framework/third_party/glfw3/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/framework/third_party/imgui/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/framework/third_party/stb/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/framework/third_party/tinyobjloader/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/framework/third_party/fmt/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/D Bureau/TUD/Courses/Q3/IN4152 3D Computer Graphics and Animations/codes/practical3/framework/third_party/nativefiledialog/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					5,
+					3
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "copy_shaders::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "CGFramework::@217a96c3a62328a73ef4"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "fmt::@0dd0d94e1dc15276fb9a"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "tinyobjloader::@9b74d22b9aa34cf3c85f"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "imgui::@d93b9608dfe271870d34"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "glfw::@1ea9373b6bb5e4d316d5"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "glad::@37fc3951361369fd0aab"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "nativefiledialog::@5dc90a60f82ed0bfb84e"
+		}
+	],
+	"id" : "Practical4::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /debug /INCREMENTAL /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "framework\\CGFramework.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "opengl32.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "framework\\third_party\\glad\\glad.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "framework\\third_party\\imgui\\imgui.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "framework\\third_party\\glfw3\\src\\glfw3.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "opengl32.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "framework\\third_party\\tinyobjloader\\tinyobjloader.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "framework\\third_party\\fmt\\fmt.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "framework\\third_party\\nativefiledialog\\nativefiledialog.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Practical4",
+	"nameOnDisk" : "Practical4.exe",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/main.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}
