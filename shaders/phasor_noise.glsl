@@ -4,6 +4,7 @@
 // Global variables for lighting calculations
 //layout(location = 1) uniform vec3 viewPos;
 layout (location = 2) uniform sampler2D tex;
+layout (location = 3) uniform sampler2D texDog;
 layout (location = 10) uniform vec3 iResolution;
 layout (location = 11) uniform vec4 iMouse;
 layout (location = 12) uniform float _f;
@@ -17,7 +18,7 @@ layout(location = 0) out vec4 outColor;
 in vec3 fragPos; // World-space position
 in vec3 fragNormal; // World-space normal
 
-vec2 fragCoord = fragPos.xz;
+vec2 fragCoord = fragPos.xy;
 
 //phasor noise parameters
 //float _f = 10.0;
@@ -153,5 +154,5 @@ void main()
     float sumGaus= g1+g2+g3;
     
     phasorfield = vec3(profile/sumGaus);
-    outColor = vec4(phasorfield,1.0) * texture(tex, fragCoord);
+    outColor = vec4(phasorfield,1.0) * texture(texDog, fragCoord);
 }
