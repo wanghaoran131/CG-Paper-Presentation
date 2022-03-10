@@ -37,6 +37,8 @@ const int HEIGHT = 800;
 
 bool debug = false;
 bool phasorNoise = false;
+bool bufferA = false;
+int currentVar = 1;
 
 static void printHelp();
 
@@ -44,13 +46,21 @@ float f = 10.0f;
 float b = 10.0f;
 int ipk = 10.0f;
 
+float rx = 3.0f;
+float ry = 3.0f;
+float rz = 3.0f;
+
+float mx = 1.0f;
+float my = 1.0f;
+float mz = 1.0f;
+
 // Program entry point. Everything starts here.
 int main(int argc, char** argv)
 {
     printHelp();
 
     Window window { "Shading", glm::ivec2(WIDTH, HEIGHT), OpenGLVersion::GL45 };
-    Trackball trackball { &window, glm::radians(150.0f) };
+    Trackball trackball { &window, glm::radians(50.0f) };
 
     const Mesh mesh = loadMesh(argc == 2 ? argv[1] : "resources/brick_path.obj")[0];
 
@@ -65,28 +75,163 @@ int main(int argc, char** argv)
             debug = !debug;
             break;
         }
+        case GLFW_KEY_9: {
+            bufferA = !bufferA;
+            break;
+        }
         case GLFW_KEY_1: {
             phasorNoise = !phasorNoise;
             break;
         }
         case GLFW_KEY_2: {
-            f += 1.0f;
+            currentVar = 2;
             break;
         }
         case GLFW_KEY_3: {
-            f -= 1.0;
+            currentVar = 3;
             break;
         }
         case GLFW_KEY_4: {
-            b += 1.0;
+            currentVar = 4;
             break;
         }
-        case GLFW_KEY_5: {
-            b -= 1.0;
+        case GLFW_KEY_RIGHT: {
+            switch (currentVar) {
+            case 2: {
+                f += 1.0;
+                break;
+            }
+            case 3: {
+                b += 1.0;
+                break;
+            }
+            case 4: {
+                ipk += 1.0;
+                break;
+            }
+            case 11: {
+                rx += 0.5;
+                break;
+            }
+            case 12: {
+                ry += 0.5;
+                break;
+            }
+            case 13: {
+                rz += 0.5;
+                break;
+            }
+            case 21: {
+                mx += 0.5;
+                break;
+            }
+            case 22: {
+                my += 0.5;
+                break;
+            }
+            case 23: {
+                mz += 0.5;
+                break;
+            }
+            default:
+                return;
+            };
             break;
         }
-        case GLFW_KEY_6: {
-            ipk += 1;
+        case GLFW_KEY_LEFT: {
+            switch (currentVar) {
+            case 2: {
+                f -= 1.0;
+                break;
+            }
+            case 3: {
+                b -= 1.0;
+                break;
+            }
+            case 4: {
+                ipk -= 1.0;
+                break;
+            }
+            case 11: {
+                rx -= 0.5;
+                break;
+            }
+            case 12: {
+                ry -= 0.5;
+                break;
+            }
+            case 13: {
+                rz -= 0.5;
+                break;
+            }
+            case 21: {
+                mx -= 0.5;
+                break;
+            }
+            case 22: {
+                my -= 0.5;
+                break;
+            }
+            case 23: {
+                mz -= 0.5;
+                break;
+            }
+            default:
+                return;
+            };
+            break;
+        }
+        case GLFW_KEY_R: {
+            currentVar = 10;
+            break;
+        }
+        case GLFW_KEY_M: {
+            currentVar = 20;
+            break;
+        }
+        case GLFW_KEY_X: {
+            switch (currentVar) {
+            case 10: {
+                currentVar = 11;
+                break;
+            }
+            case 20: {
+                currentVar = 21;
+                break;
+            }
+            default:
+                return;
+            };
+            break;
+        }
+        case GLFW_KEY_Y: {
+            switch (currentVar) {
+            case 10: {
+                currentVar = 12;
+                break;
+            }
+            case 20: {
+                currentVar = 22;
+                break;
+            }
+            default:
+                return;
+            };
+            break;
+        }
+        case GLFW_KEY_Z: {
+            switch (currentVar) {
+            case 10: {
+                currentVar = 13;
+                break;
+            }
+            case 20: {
+                currentVar = 23;
+                break;
+            }
+            default:
+                return;
+            };
             break;
         }
         case GLFW_KEY_7: {
@@ -99,16 +244,23 @@ int main(int argc, char** argv)
 
         if (phasorNoise) {
             std::cout << "PHASOR NOISE!" << std::endl;
-            std::cout << "f = " << f << std::endl;
-            std::cout << "b = " << b << std::endl;
-            std::cout << "ipk = " << ipk << std::endl;
-            std::cout << "__________________" << std::endl;
         }
+        if (bufferA) {
+            std::cout << "BUFFER A!" << std::endl;
+        }
+        std::cout << "f = " << f << std::endl;
+        std::cout << "b = " << b << std::endl;
+        std::cout << "ipk = " << ipk << std::endl;
+        std::cout << "current var = " << currentVar << std::endl;
+        std::cout << "resolution = " << rx << ", " << ry << ", " << rz << std::endl;
+        std::cout << "mouse = " << mx << ", " << my << ", " << mz << std::endl;
+        std::cout << "__________________" << std::endl;
         
     });
 
     const Shader debugShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/debug_frag.glsl").build();
     const Shader phasorNoiseShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/phasor_noise.glsl").build();
+    const Shader bufferAShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/buffer_a.glsl").build();
 
     // Create Vertex Buffer Object and Index Buffer Objects.
     GLuint vbo;
@@ -137,7 +289,7 @@ int main(int argc, char** argv)
 
     // Load image from disk to CPU memory.
     int width, height, sourceNumChannels; // Number of channels in source image. pixels will always be the requested number of channels (3).
-    stbi_uc* pixels = stbi_load("resources/random_try.png", &width, &height, &sourceNumChannels, STBI_rgb);
+    stbi_uc* pixels = stbi_load("resources/dog.png", &width, &height, &sourceNumChannels, STBI_rgb);
 
     // Create a texture on the GPU with 3 channels with 8 bits each.
     GLuint texToon;
@@ -170,7 +322,7 @@ int main(int argc, char** argv)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Set model/view/projection matrix.
-        const glm::vec3 cameraPos = glm::vec3(0.0f, 5.0f, 0.0f);
+        const glm::vec3 cameraPos = glm::vec3(5.0f, 0.0f, 0.0f);
         const glm::mat4 model { 1.0f };
         const glm::mat4 view = trackball.viewMatrix();
         const glm::mat4 projection = trackball.projectionMatrix();
@@ -216,8 +368,27 @@ int main(int argc, char** argv)
                     //uniform vec3      iResolution;           // viewport resolution (in pixels)
                     //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
                     //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    glm::vec3 placeholder3 = glm::vec3(3.0f, 3.0f, 3.0f);
-                    glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+                    glm::vec3 placeholder3 = glm::vec3(rx, ry, rz);
+                    glm::vec3 placeholder4 = glm::vec4(mx, my, mz, 1.0f);
+                    glUniform3fv(10, 1, glm::value_ptr(placeholder3));
+                    glUniform4fv(11, 1, glm::value_ptr(placeholder4));
+                    glUniform1f(12, f);
+                    glUniform1f(13, b);
+                    glUniform1i(14, ipk);
+                    render();
+                }
+
+                if (bufferA) {
+                    bufferAShader.bind();
+
+                    glActiveTexture(GL_TEXTURE0);
+                    glBindTexture(GL_TEXTURE_2D, texToon);
+                    glUniform1i(2, 0); // Change 2 to the uniform index that you want to use.
+                    //uniform vec3      iResolution;           // viewport resolution (in pixels)
+                    //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
+                    //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
+                    glm::vec3 placeholder3 = glm::vec3(rx, ry, 1.0f);
+                    glm::vec3 placeholder4 = glm::vec4(mx, my, mz, 1.0f);
                     glUniform3fv(10, 1, glm::value_ptr(placeholder3));
                     glUniform4fv(11, 1, glm::value_ptr(placeholder4));
                     glUniform1f(12, f);
