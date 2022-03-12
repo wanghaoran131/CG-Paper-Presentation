@@ -11,7 +11,7 @@ layout (location = 13) uniform float _b;
 layout (location = 14) uniform int _impPerKernel;
 
 // Output for on-screen color
-layout(location = 0) out vec4 outColor;
+layout(location = 0) out vec4 fragColor;
 
 // Interpolated output data from vertex shader
 in vec3 fragPos; // World-space position
@@ -109,5 +109,5 @@ void main()
   vec2 gaussian_field = vec2(eval_noise(uv,_b));
   gaussian_field = normalize(gaussian_field);
   float angle = atan(gaussian_field.y,gaussian_field.x)/2.0/M_PI;
-  outColor = vec4(vec3(angle,angle, angle),1.0);
+  fragColor vec4(vec3(angle,0, 0),1.0);
 }
