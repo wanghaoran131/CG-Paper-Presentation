@@ -27,6 +27,8 @@ float _kr;
 //int _impPerKernel = 16;
 int _seed = 1;
 
+float alpha = 0.6;
+
 vec2 uv;
 
 
@@ -66,7 +68,7 @@ vec2 phasor(vec2 x, float f, float b, float o, float phi)
 
 void init_noise()
 {
-    _kr = sqrt(-log(0.05) / M_PI) / _b;
+    _kr = sqrt(-log(0.15) * cos(alpha) / M_PI) / _b;
 }
 
 
@@ -86,7 +88,7 @@ vec2 cell(ivec2 ij, vec2 uv, float f, float b)
         vec2 trueUv = ((vec2(ij) + impulse_centre) *cellsz) *  iResolution.yy / iResolution.xy;
 		trueUv.y = -trueUv.y;
         float o = texture(phasorField, trueUv).x *2.0* M_PI;
-		noise += phasor(d, f, b ,o, rp);
+		noise += phasor(d, f, b ,o , rp);
 		impulse++;
 	}
 	return noise;
@@ -113,22 +115,11 @@ float PWM(float x, float r)
 	return mod(x,2.0*M_PI)> 2.0*M_PI *r ? 1.0 : 0.0; 
 }
 
-float square(float x)
-{
-  return PWM(x,0.5);   
-}
-
 float sawTooth(float x)
 {
 	return mod(x,2.0*M_PI)/(2.0*M_PI);
 }
 
-vec3 hsv2rgb(vec3 c)
-{
-    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
-    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
-}
 
 void main()
 {
@@ -147,10 +138,12 @@ void main()
     float g2 = exp(-(uv.x-0.9)*(uv.x-0.9)*20.0);
     float p3 = sin(phi+M_PI)+0.5*0.5;
     float g3 = exp(-(uv.x-1.5)*(uv.x-1.5)*20.0);
+    float p4 = 0.5;
+    float g4 = 0.5;
     vec3 phasorfield  = vec3(sin(phi)*0.3 +0.5);
     
-    float profile =p1*g1+p2*g2+p3*g3;
-    float sumGaus= g1+g2+g3;
+    float profile =p1*g1+p2*g2+p3*g3+p4*g4;
+    float sumGaus= g1+g2+g3+g4;
     
     phasorfield = vec3(profile/sumGaus);
     outColor = vec4(phasorfield,1.0);
