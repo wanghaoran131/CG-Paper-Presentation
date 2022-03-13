@@ -3,12 +3,12 @@
 
 // Global variables for lighting calculations
 //layout(location = 1) uniform vec3 viewPos;
-layout (location = 2) uniform sampler2D tex;
-layout (location = 3) uniform sampler2D texDog;
+layout (location = 2) uniform sampler2D phasorField;
+layout (location = 3) uniform sampler2D finalTexture;
 layout (location = 10) uniform vec3 iResolution;
 layout (location = 11) uniform vec4 iMouse;
 layout (location = 12) uniform float _f;
-layout (location = 13) uniform float _b;
+//layout (location = 13) uniform float _b;
 layout (location = 14) uniform int _impPerKernel;
 
 // Output for on-screen color
@@ -21,8 +21,8 @@ in vec3 fragNormal; // World-space normal
 vec2 fragCoord = fragPos.xy;
 
 //phasor noise parameters
-//float _f = 10.0;
-//float _b = 2.0;
+//float _f = 40.0;
+float _b = 30.0;
 //float _o = 8.0;
 float _kr;
 //int _impPerKernel = 16;
@@ -86,8 +86,8 @@ vec2 cell(ivec2 ij, vec2 uv, float f, float b)
 		float rp = uni(0.0,2.0*M_PI) ;
         vec2 trueUv = ((vec2(ij) + impulse_centre) *cellsz) *  iResolution.yy / iResolution.xy;
 		trueUv.y = -trueUv.y;
-        float o = texture(tex, trueUv).x *2.0* M_PI;
-		noise += phasor(d, f, b ,o,rp );
+        float o = texture(phasorField, trueUv).x *2.0* M_PI;
+		noise += phasor(d, f, b ,o, rp);
 		impulse++;
 	}
 	return noise;
@@ -141,7 +141,7 @@ void main()
     vec2 dir = vec2(cos(o),sin(o));
     float phi = atan(phasorNoise.y,phasorNoise.x);
     float I = length(phasorNoise);
-    float angle = texture(tex,fragCoord/iResolution.xy ).x;
+    float angle = texture(phasorField,fragCoord/iResolution.xy ).x;
     float p1 = PWM(phi, uv.x+0.2 *0.5);
     float g1 = exp(-(uv.x-0.3)*(uv.x-0.3)*20.0);
 	float p2 = sawTooth(phi);
@@ -154,5 +154,5 @@ void main()
     float sumGaus= g1+g2+g3;
     
     phasorfield = vec3(profile/sumGaus);
-    outColor = vec4(phasorfield,1.0) * texture(texDog, fragCoord);
+    outColor = vec4(phasorfield,1.0) * texture(finalTexture, fragCoord);
 }

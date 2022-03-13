@@ -310,6 +310,22 @@ int main(int argc, char** argv)
     GLuint noiseTexture;
     glCreateTextures(GL_TEXTURE_2D, 1, &noiseTexture);
     glTextureStorage2D(noiseTexture, 1, GL_RGB8, width, height);
+    // this texture is from the screenshot png, that's the one giving nice result when applied to the phasor noise shader
+
+
+    // ---------------------------------------------------------- this is useful
+    GLuint fbo;
+    glCreateFramebuffers(1, &fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+    GLuint framebufferTexture;
+    glGenTextures(1, &framebufferTexture);
+    glBindTexture(GL_TEXTURE_2D, framebufferTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTextureParameteri(framebufferTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(framebufferTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, framebufferTexture, 1);
+    // ---------------------------------------------------------- end of useful
 
     // Upload pixels into the GPU texture.
     glTextureSubImage2D(noiseTexture, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixelsNoiseTexture);
@@ -407,62 +423,36 @@ int main(int argc, char** argv)
 
             renderedSomething = false;
             if (!renderedSomething) {
-                if (bufferTry) {
-                    bufferTryShader.bind();
-                    glBindFramebuffer(GL_FRAMEBUFFER, fbo_handle);
 
-                    glPushAttrib(GL_VIEWPORT_BIT);
-                    glViewport(0, 0, texture_width, texture_height);
 
-                    glActiveTexture(GL_TEXTURE0);
-                    glBindTexture(GL_TEXTURE_2D, phasorTexture);
-                    glUniform1i(2, 0); // Change 2 to the uniform index that you want to use.
-                    //uniform vec3      iResolution;           // viewport resolution (in pixels)
-                    //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
-                    //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    //glm::vec3 placeholder3 = glm::vec3(rx, ry, 1.0f);
-                    glm::vec3 ph2 = glm::vec3(3.0f, 3.0f, 3.0f);
-                    glm::vec3 placeholder4 = glm::vec4(mx, my, mz, 1.0f);
-                    glUniform3fv(10, 1, glm::value_ptr(ph2));
-                    glUniform4fv(11, 1, glm::value_ptr(placeholder4));
-                    glUniform1f(12, f);
-                    glUniform1f(13, b);
-                    glUniform1i(14, ipk);
+                // ------------------------------------------------- this is useful
 
-                    render();
-                    glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo_handle);
-                    glBindTexture(GL_TEXTURE_2D, phasorTexture);
-                    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, texture_width, texture_height);
+                bufferAShader.bind();
 
-                    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+                //uniform vec3      iResolution;           // viewport resolution (in pixels)
+                //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
+                //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
+                //glm::vec3 placeholder3 = glm::vec3(rx, ry, 1.0f);
+                glm::vec3 ph2 = glm::vec3(3.0f, 3.0f, 3.0f);
+                glm::vec3 placeholder4 = glm::vec4(mx, my, mz, 1.0f);
+                glUniform3fv(10, 1, glm::value_ptr(ph2));
+                glUniform4fv(11, 1, glm::value_ptr(placeholder4));
+                glUniform1f(13, b);
+                glUniform1i(14, ipk);
+                render();
+                // output somehow gives a new generated_texture
 
-                    glPopAttrib();
-                }
-                if (bufferA) {
-                    bufferAShader.bind();
-
-                    glActiveTexture(GL_TEXTURE0);
-                    glBindTexture(GL_TEXTURE_2D, phasorTexture);
-                    glUniform1i(2, 0); // Change 2 to the uniform index that you want to use.
-                    //uniform vec3      iResolution;           // viewport resolution (in pixels)
-                    //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
-                    //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    //glm::vec3 placeholder3 = glm::vec3(rx, ry, 1.0f);
-                    glm::vec3 ph2 = glm::vec3(3.0f, 3.0f, 3.0f);
-                    glm::vec3 placeholder4 = glm::vec4(mx, my, mz, 1.0f);
-                    glUniform3fv(10, 1, glm::value_ptr(ph2));
-                    glUniform4fv(11, 1, glm::value_ptr(placeholder4));
-                    glUniform1f(12, f);
-                    glUniform1f(13, b);
-                    glUniform1i(14, ipk);
-                    render();
-                }
                 if (phasorNoise) {
                     phasorNoiseShader.bind();
 
+                    // here we can use generated_texture
                     glActiveTexture(GL_TEXTURE0);
+                    // if I use noiseTexture (screenshot made previously from screen display) it gives a nice noise
                     glBindTexture(GL_TEXTURE_2D, noiseTexture);
+                    // if I use framebufferTexture (generated by buffer A) it gives shit
+                    //glBindTexture(GL_TEXTURE_2D, framebufferTexture);
                     glUniform1i(2, 0);
+                    // that's useless, the dog thing, from before (haven't cleaned up yet)
                     glActiveTexture(GL_TEXTURE0+1);
                     glBindTexture(GL_TEXTURE_2D, dogImage);
                     glUniform1i(3, 1);
@@ -474,10 +464,14 @@ int main(int argc, char** argv)
                     glUniform3fv(10, 1, glm::value_ptr(placeholder3));
                     glUniform4fv(11, 1, glm::value_ptr(placeholder4));
                     glUniform1f(12, f);
-                    glUniform1f(13, b);
+                    //glUniform1f(13, b);
                     glUniform1i(14, ipk);
                     render();
                 }
+
+                // ----------------------------------------------------------------- end of useful
+
+
                 if (gaborNoise) {
                     gaborNoiseShader.bind();
 

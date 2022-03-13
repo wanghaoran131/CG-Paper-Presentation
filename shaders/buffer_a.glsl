@@ -3,15 +3,14 @@
 
 // Global variables for lighting calculations
 //layout(location = 1) uniform vec3 viewPos;
-layout (location = 2) uniform sampler2D phasorField;
 layout (location = 10) uniform vec3 iResolution;
 layout (location = 11) uniform vec4 iMouse;
-layout (location = 12) uniform float _f;
 layout (location = 13) uniform float _b;
 layout (location = 14) uniform int _impPerKernel;
 
 // Output for on-screen color
-layout(location = 0) out vec4 outColor;
+layout(location = 0) out vec4 outColor1;
+layout(location = 3) out vec4 outColor;
 
 // Interpolated output data from vertex shader
 in vec3 fragPos; // World-space position
@@ -20,9 +19,7 @@ in vec3 fragNormal; // World-space normal
 vec2 fragCoord = fragPos.xy;
 
 //phasor noise parameters
-//float _f = 10.0;
 //float _b = 2.0;
-//float _o = 8.0;
 float _kr;
 //int _impPerKernel = 16;
 int _seed = 6;
@@ -110,4 +107,5 @@ void main()
   gaussian_field = normalize(gaussian_field);
   float angle = atan(gaussian_field.y,gaussian_field.x)/2.0/M_PI;
   outColor = vec4(vec3(angle,angle, angle),1.0);
+  outColor1 = outColor;
 }
