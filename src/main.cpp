@@ -41,8 +41,7 @@ const int HEIGHT = 800;
 
 bool debug = false;
 bool phasorNoise = false;
-bool gaborNoise = false;
-bool bufferA = false;
+bool bufferA = true;
 bool phasor2 = false;
 bool first = false;
 bool second = false;
@@ -54,7 +53,7 @@ static void printHelp();
 
 float f = 50.0f;
 float b = 30.0f;
-int ipk = 16.0f;
+int ipk = 16;
 
 // Program entry point. Everything starts here.
 int main(int argc, char** argv)
@@ -65,7 +64,7 @@ int main(int argc, char** argv)
     Trackball trackball { &window, glm::radians(50.0f) };
     Trackball trackball2{ &window, glm::radians(50.0f) };
 
-    const Mesh mesh = loadMesh(argc == 2 ? argv[1] : "resources/square.obj")[0];
+    const Mesh mesh = loadMesh(argc == 2 ? argv[1] : "resources/square_centered.obj")[0];
 
     window.registerKeyCallback([&](int key, int /* scancode */, int action, int /* mods */) {
         if (action != GLFW_RELEASE)
@@ -87,10 +86,6 @@ int main(int argc, char** argv)
             break;
         }
         case GLFW_KEY_2: {
-            gaborNoise = !gaborNoise;
-            break;
-        }
-        case GLFW_KEY_3: {
             phasor2 = !phasor2;
             break;
         }
@@ -217,9 +212,6 @@ int main(int argc, char** argv)
         if (phasorNoise) {
             std::cout << "PHASOR NOISE!" << std::endl;
         }
-        if (gaborNoise) {
-            std::cout << "GABOR NOISE!" << std::endl;
-        }
         if (bufferA) {
             std::cout << "BUFFER A!" << std::endl;
         }
@@ -233,7 +225,6 @@ int main(int argc, char** argv)
 
     const Shader debugShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/debug_frag.glsl").build();
     const Shader phasorNoiseShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/phasor_noise.glsl").build();
-    const Shader gaborNoiseShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/gabor_noise.glsl").build();
     const Shader bufferAShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/buffer_a.glsl").build();
     const Shader phasorSecondShader = ShaderBuilder().addStage(GL_VERTEX_SHADER, "shaders/vertex.glsl").addStage(GL_FRAGMENT_SHADER, "shaders/phasor_noise_v2.glsl").build();
 
@@ -260,25 +251,11 @@ int main(int argc, char** argv)
     glVertexArrayVertexBuffer(vao, 0, vbo, offsetof(Vertex, position), sizeof(Vertex));
     glVertexArrayVertexBuffer(vao, 1, vbo, offsetof(Vertex, normal), sizeof(Vertex));
     glEnableVertexArrayAttrib(vao, 0);
-    glEnableVertexArrayAttrib(vao, 1);
-
-    stbi_set_flip_vertically_on_load(true);
-    // Load image from disk to CPU memory.
-    int width, height, sourceNumChannels; // Number of channels in source image. pixels will always be the requested number of channels (3).
-    stbi_uc* pixelsNoiseTexture = stbi_load("resources/phasor_field2.png", &width, &height, &sourceNumChannels, STBI_rgb);
-
-    // Create a texture on the GPU with 3 channels with 8 bits each.
-    GLuint noiseTexture;
-    glCreateTextures(GL_TEXTURE_2D, 1, &noiseTexture);
-    glTextureStorage2D(noiseTexture, 1, GL_RGB8, width, height);
-    // this texture is from the screenshot png, that's the one giving nice result when applied to the phasor noise shader
-
-
-    
+    glEnableVertexArrayAttrib(vao, 1);    
 
     GLuint framebufferTexture;     // actual texture
     glCreateTextures(GL_TEXTURE_2D, 1, &framebufferTexture);            // create a 2d texture for the framebufferTexture
-    glTextureStorage2D(framebufferTexture, 1, GL_RGB8, width, height);  // It has 3 chanels and width heigt
+    glTextureStorage2D(framebufferTexture, 1, GL_RGB8, WIDTH, HEIGHT);  // It has 3 chanels and width heigt
 
     glTextureParameteri(framebufferTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);    // Set the clamping mode
     glTextureParameteri(framebufferTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -286,43 +263,7 @@ int main(int argc, char** argv)
     GLuint fbo;     // frame buffer for the extra texture
     glCreateFramebuffers(1, &fbo);
     glNamedFramebufferTexture(fbo, GL_COLOR_ATTACHMENT0, framebufferTexture, 0);    // Atach this frame buffer to the texture
-    
-
-    // Upload pixels into the GPU texture.
-    glTextureSubImage2D(noiseTexture, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixelsNoiseTexture);
-    // Free the CPU memory after we copied the image to the GPU.
-    stbi_image_free(pixelsNoiseTexture);
-
-    stbi_uc* pixelsDog = stbi_load("resources/dog2.png", &width, &height, &sourceNumChannels, STBI_rgb);
-    GLuint dogImage;
-    glCreateTextures(GL_TEXTURE_2D, 1, &dogImage);
-    glTextureStorage2D(dogImage, 1, GL_RGB8, width, height);
-    glTextureSubImage2D(dogImage, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixelsDog);
-    stbi_image_free(pixelsDog);
-
-    stbi_uc* whiteMap = stbi_load("resources/white_map.png", &width, &height, &sourceNumChannels, STBI_rgb);
-    GLuint phasorTexture;
-    glCreateTextures(GL_TEXTURE_2D, 1, &phasorTexture);
-    glTextureStorage2D(phasorTexture, 1, GL_RGB8, width, height);
-    glTextureSubImage2D(phasorTexture, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, whiteMap);
-    stbi_image_free(whiteMap);
-
-    // Set behavior for when texture coordinates are outside the [0, 1] range.
-    glTextureParameteri(noiseTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(noiseTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(dogImage, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(dogImage, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(phasorTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(phasorTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    // Set interpolation for texture sampling (GL_NEAREST for no interpolation).
-    glTextureParameteri(noiseTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureParameteri(noiseTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTextureParameteri(dogImage, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureParameteri(dogImage, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTextureParameteri(phasorTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureParameteri(phasorTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
+  
     // Enable depth testing.
     glEnable(GL_DEPTH_TEST);
 
@@ -379,8 +320,16 @@ int main(int argc, char** argv)
 
                 // ------------------------------------------------- this is useful
 
+                if (bufferA) {
+
+                    bufferAShader.bind();
+                    glUniform1f(13, b);
+                    glUniform1i(14, ipk);
+                    render();
+                }
+
                 
-                {
+                else {
                     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
                     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -389,14 +338,6 @@ int main(int argc, char** argv)
 
                     bufferAShader.bind();
 
-                    //uniform vec3      iResolution;           // viewport resolution (in pixels)
-                    //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
-                    //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    //glm::vec3 placeholder3 = glm::vec3(rx, ry, 1.0f);
-                    glm::vec3 ph2 = glm::vec3(1.0f, 1.0f, 1.0f);
-                    glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-                    glUniform3fv(10, 1, glm::value_ptr(ph2));
-                    glUniform4fv(11, 1, glm::value_ptr(placeholder4));
                     glUniform1f(13, b);
                     glUniform1i(14, ipk);
                     glm::mat4 mvp2 = glm::mat4(-2.15, 0, 0, 0,
@@ -419,98 +360,50 @@ int main(int argc, char** argv)
                     glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(mesh.triangles.size()) * 3, GL_UNSIGNED_INT, nullptr);
 
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-                }
-                // put the generated texture in a buffer to see
-                
-                /*
-                GLsizei nrChannels = 3;
-                GLsizei stride = nrChannels * width;
-                stride += (stride % 4) ? (4 - stride % 4) : 0;
-                GLsizei bufferSize = stride * height;
-                std::vector<char> buffer(bufferSize);
-                glPixelStorei(GL_PACK_ALIGNMENT, 4);
-                glReadBuffer(GL_FRONT);
-                glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer.data());
-                stbi_flip_vertically_on_write(true);
-                stbi_write_png("resources/temp.png", width, height, nrChannels, buffer.data(), stride);*/
-                
 
-                if (phasorNoise) {
-                    phasorNoiseShader.bind();
 
-                    // here we can use generated_texture
-                    glActiveTexture(GL_TEXTURE0);
-                    // if I use noiseTexture (screenshot made previously from screen display) it gives a nice noise
-                    //glBindTexture(GL_TEXTURE_2D, noiseTexture);
-                    // if I use framebufferTexture (generated by buffer A) it gives shit
-                    glBindTexture(GL_TEXTURE_2D, framebufferTexture);
-                    glUniform1i(2, 0);
-                    glActiveTexture(GL_TEXTURE0+1);
-                    glBindTexture(GL_TEXTURE_2D, dogImage);
-                    glUniform1i(3, 1);
-                    //uniform vec3      iResolution;           // viewport resolution (in pixels)
-                    //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
-                    //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    glm::vec3 placeholder3 = glm::vec3(1.0f, 1.0f, 1.0f);
-                    glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-                    glUniform3fv(10, 1, glm::value_ptr(placeholder3));
-                    glUniform4fv(11, 1, glm::value_ptr(placeholder4));
-                    glUniform1f(12, f);
-                    glUniform1f(13, b);
-                    glUniform1i(14, ipk);
-                    glUniform1i(31, first);
-                    glUniform1i(32, second);
-                    glUniform1i(33, third);
-                    glUniform1i(34, fourth);
-                    render();
+                    if (phasorNoise) {
+                        phasorNoiseShader.bind();
+
+                        // texture from framebuffer
+                        glActiveTexture(GL_TEXTURE0);
+                        glBindTexture(GL_TEXTURE_2D, framebufferTexture);
+                        glUniform1i(2, 0);
+                        glUniform1f(12, f);
+                        glUniform1f(13, b);
+                        glUniform1i(14, ipk);
+                        glUniform1i(31, first);
+                        glUniform1i(32, second);
+                        glUniform1i(33, third);
+                        glUniform1i(34, fourth);
+                        render();
+                    }
+
+
+                    if (phasor2) {
+                        phasorSecondShader.bind();
+
+                        // here we can use generated_texture
+                        glActiveTexture(GL_TEXTURE0);
+                        // if I use noiseTexture (screenshot made previously from screen display) it gives a nice noise
+                        //glBindTexture(GL_TEXTURE_2D, noiseTexture);
+                        // if I use framebufferTexture (generated by buffer A) it gives shit
+                        glBindTexture(GL_TEXTURE_2D, framebufferTexture);
+                        glUniform1i(2, 0);
+                        //uniform vec3      iResolution;           // viewport resolution (in pixels)
+                        //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
+                        //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
+                        glm::vec3 placeholder3 = glm::vec3(1.0f, 1.0f, 1.0f);
+                        glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+                        glUniform3fv(10, 1, glm::value_ptr(placeholder3));
+                        glUniform4fv(11, 1, glm::value_ptr(placeholder4));
+                        glUniform1f(12, f);
+                        //glUniform1f(13, b);
+                        glUniform1i(14, ipk);
+                        render();
+                    }
                 }
 
-                // ----------------------------------------------------------------- end of useful
-
-                if (phasor2) {
-                    phasorSecondShader.bind();
-
-                    // here we can use generated_texture
-                    //glActiveTexture(GL_TEXTURE0);
-                    // if I use noiseTexture (screenshot made previously from screen display) it gives a nice noise
-                    glBindTexture(GL_TEXTURE_2D, noiseTexture);
-                    // if I use framebufferTexture (generated by buffer A) it gives shit
-                    //glBindTexture(GL_TEXTURE_2D, framebufferTexture);
-                    glUniform1i(2, 0);
-                    //uniform vec3      iResolution;           // viewport resolution (in pixels)
-                    //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
-                    //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    glm::vec3 placeholder3 = glm::vec3(1.0f, 1.0f, 1.0f);
-                    glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-                    glUniform3fv(10, 1, glm::value_ptr(placeholder3));
-                    glUniform4fv(11, 1, glm::value_ptr(placeholder4));
-                    glUniform1f(12, f);
-                    //glUniform1f(13, b);
-                    glUniform1i(14, ipk);
-                    render();
-                }
-
-                if (gaborNoise) {
-                    gaborNoiseShader.bind();
-
-                    glActiveTexture(GL_TEXTURE0);
-                    glBindTexture(GL_TEXTURE_2D, noiseTexture);
-                    glUniform1i(2, 0);
-                    glActiveTexture(GL_TEXTURE0 + 1);
-                    glBindTexture(GL_TEXTURE_2D, dogImage);
-                    glUniform1i(3, 1);
-                    //uniform vec3      iResolution;           // viewport resolution (in pixels)
-                    //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
-                    //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    glm::vec3 placeholder3 = glm::vec3(1.0f, 1.0f, 1.0f);
-                    glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-                    glUniform3fv(10, 1, glm::value_ptr(placeholder3));
-                    glUniform4fv(11, 1, glm::value_ptr(placeholder4));
-                    glUniform1f(12, f);
-                    //glUniform1f(13, b);
-                    //glUniform1i(14, ipk);
-                    render();
-                }
                 
             }
             
@@ -531,10 +424,10 @@ int main(int argc, char** argv)
     }
 
     // Be a nice citizen and clean up after yourself.
-    glDeleteTextures(1, &noiseTexture);
-    glDeleteTextures(1, &dogImage);
+    glDeleteTextures(1, &framebufferTexture);
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ibo);
+    glDeleteFramebuffers(1, &fbo);
     glDeleteVertexArrays(1, &vao);
 
     return 0;
@@ -574,7 +467,7 @@ static void printHelp()
     std::cout << "0 - activate Debug" << std::endl;
     std::cout << "______________________" << std::endl;
     std::cout << "1 - Phasor noise" << std::endl;
-    std::cout << "2 - Gabor noise" << std::endl;
+    std::cout << "2 - Second phasor" << std::endl;
     std::cout << "RIGHT - Increase" << std::endl;
     std::cout << "LEFT - Decrease" << std::endl;
     std::cout << "F - Select f" << std::endl;

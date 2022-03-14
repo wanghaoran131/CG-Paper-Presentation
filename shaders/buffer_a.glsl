@@ -3,14 +3,12 @@
 
 // Global variables for lighting calculations
 //layout(location = 1) uniform vec3 viewPos;
-layout (location = 10) uniform vec3 iResolution;
-layout (location = 11) uniform vec4 iMouse;
 layout (location = 13) uniform float _b;
 layout (location = 14) uniform int _impPerKernel;
 
 // Output for on-screen color
-layout(location = 0) out vec4 outColor1;
-layout(location = 3) out vec4 outColor;
+layout(location = 0) out vec4 outColor;
+//layout(location = 3) out vec4 outColor;
 
 // Interpolated output data from vertex shader
 in vec3 fragPos; // World-space position
@@ -99,13 +97,12 @@ vec2 eval_noise(vec2 uv, float b)
 
 void main()
 {
-  uv = fragCoord/iResolution.y;
+  uv = fragCoord;
   uv.y=-uv.y;
   init_noise();
-  float o = iMouse.x/iResolution.x * 2.0*M_PI;
+  float o = uv.x * 2.0*M_PI;
   vec2 gaussian_field = vec2(eval_noise(uv,_b));
   //gaussian_field = normalize(gaussian_field);
   float angle = atan(gaussian_field.y,gaussian_field.x)/2.0/M_PI;
   outColor = vec4(vec3(angle,angle, angle), max(0, -fragNormal.z));
-  outColor1 = outColor;
 }
