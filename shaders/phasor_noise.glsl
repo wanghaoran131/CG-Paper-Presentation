@@ -161,6 +161,10 @@ void main()
     }
     float p4 = 0.0;
     float g4 = 0.0;
+    if (fourth){
+        p4 = sawTooth(phi+M_PI/2);
+        g4 = exp(-(uv.x-0.1)*(uv.x-0.1)*20.0);
+    }
     
     vec3 phasorfield  = vec3(sin(phi)*0.3 +0.5);
     
