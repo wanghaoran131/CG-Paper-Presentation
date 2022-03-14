@@ -41,7 +41,7 @@ const int HEIGHT = 800;
 
 bool debug = false;
 bool phasorNoise = false;
-bool bufferA = true;
+bool phaseField = true;
 bool first = false;
 bool second = false;
 bool third = false;
@@ -77,7 +77,7 @@ int main(int argc, char** argv)
             break;
         }
         case GLFW_KEY_9: {
-            bufferA = !bufferA;
+            phaseField = !phaseField;
             break;
         }
         case GLFW_KEY_1: {
@@ -86,15 +86,19 @@ int main(int argc, char** argv)
         }
         case GLFW_KEY_5: {
             first = !first;
+            break;
         }
         case GLFW_KEY_6: {
             second = !second;
+            break;
         }
         case GLFW_KEY_7: {
             third = !third;
+            break;
         }
         case GLFW_KEY_8: {
             fourth = !fourth;
+            break;
         }
         case GLFW_KEY_F: {
             currentVar = 2;
@@ -204,11 +208,25 @@ int main(int argc, char** argv)
             return;
         };
 
-        if (phasorNoise) {
-            std::cout << "PHASOR NOISE!" << std::endl;
+        if (phaseField) {
+            std::cout << "PHASE FIELD!" << std::endl;
         }
-        if (bufferA) {
-            std::cout << "BUFFER A!" << std::endl;
+        else {
+            if (phasorNoise) {
+                std::cout << "PHASOR NOISE!" << std::endl;
+                if (first) {
+                    std::cout << "function 1 ON" << std::endl;
+                }
+                if (second) {
+                    std::cout << "function 2 ON" << std::endl;
+                }
+                if (third) {
+                    std::cout << "function 3 ON" << std::endl;
+                }
+                if (fourth) {
+                    std::cout << "function 4 ON" << std::endl;
+                }
+            }
         }
         std::cout << "f = " << f << std::endl;
         std::cout << "b = " << b << std::endl;
@@ -314,7 +332,7 @@ int main(int argc, char** argv)
 
                 // ------------------------------------------------- this is useful
 
-                if (bufferA) {
+                if (phaseField) {
 
                     bufferAShader.bind();
                     glUniform1f(13, b);
@@ -376,7 +394,6 @@ int main(int argc, char** argv)
                 }
 
             }
-            
 
             // Restore default depth test settings and disable blending.
             glDepthFunc(GL_LEQUAL);
@@ -437,9 +454,14 @@ static void printHelp()
     std::cout << "0 - activate Debug" << std::endl;
     std::cout << "______________________" << std::endl;
     std::cout << "1 - Phasor noise" << std::endl;
-    std::cout << "2 - Second phasor" << std::endl;
-    std::cout << "RIGHT - Increase" << std::endl;
-    std::cout << "LEFT - Decrease" << std::endl;
+    std::cout << "      5 - (De)activate function 1" << std::endl;
+    std::cout << "      6 - (De)activate function 2" << std::endl;
+    std::cout << "      7 - (De)activate function 3" << std::endl;
+    std::cout << "      8 - (De)activate function 4" << std::endl;
+    std::cout << "9 - Phase field" << std::endl;
+    std::cout << "______________________" << std::endl;
+    std::cout << "RIGHT - Increase value" << std::endl;
+    std::cout << "LEFT - Decrease value" << std::endl;
     std::cout << "F - Select f" << std::endl;
     std::cout << "B - Select b" << std::endl;
     std::cout << "I - Select ipk" << std::endl;
