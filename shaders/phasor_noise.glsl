@@ -3,12 +3,17 @@
 
 // Global variables for lighting calculations
 //layout(location = 1) uniform vec3 viewPos;
-layout (location = 2) uniform sampler2D phasorField;
+layout (location = 2) uniform sampler2D phaseField;
+layout (location = 3) uniform sampler2D dogImage;
 layout (location = 10) uniform vec3 iResolution;
 layout (location = 11) uniform vec4 iMouse;
 layout (location = 12) uniform float _f;
-//layout (location = 13) uniform float _b;
+layout (location = 13) uniform float _b;
 layout (location = 14) uniform int _impPerKernel;
+layout (location = 31) uniform bool first;
+layout (location = 32) uniform bool second;
+layout (location = 33) uniform bool third;
+layout (location = 34) uniform bool fourth;
 
 // Output for on-screen color
 layout(location = 0) out vec4 outColor;
@@ -21,7 +26,7 @@ vec2 fragCoord = fragPos.xy;
 
 //phasor noise parameters
 //float _f = 40.0;
-float _b = 30.0;
+//float _b = 30.0;
 //float _o = 8.0;
 float _kr;
 //int _impPerKernel = 16;
@@ -83,9 +88,9 @@ vec2 cell(ivec2 ij, vec2 uv, float f, float b)
 		vec2 impulse_centre = vec2(uni_0_1(),uni_0_1());
 		vec2 d = (uv - impulse_centre) *cellsz;
 		float rp = uni(0.0,2.0*M_PI) ;
-        vec2 trueUv = ((vec2(ij) + impulse_centre) *cellsz) *  iResolution.yy / iResolution.xy;
+        vec2 trueUv = ((vec2(ij) + impulse_centre) *cellsz);
 		trueUv.y = -trueUv.y;
-        float o = texture(phasorField, trueUv).x *2.0* M_PI;
+        float o = texture(phaseField, trueUv).x *2.0* M_PI;
 		noise += phasor(d, f, b ,o, rp);
 		impulse++;
 	}
@@ -132,25 +137,43 @@ vec3 hsv2rgb(vec3 c)
 
 void main()
 {
-    uv = fragCoord/iResolution.y;
+    uv = fragCoord;
     uv.y=-uv.y;
     init_noise();
-    float o = iMouse.x/iResolution.x * 2.0*M_PI;
+    float o = fragCoord.x * 2.0*M_PI;
     vec2 phasorNoise = eval_noise(uv,_f,_b);
     vec2 dir = vec2(cos(o),sin(o));
     float phi = atan(phasorNoise.y,phasorNoise.x);
     float I = length(phasorNoise);
-    float angle = texture(phasorField,fragCoord/iResolution.xy ).x;
-    float p1 = PWM(phi, uv.x+0.2 *0.5);
-    float g1 = exp(-(uv.x-0.3)*(uv.x-0.3)*20.0);
-	float p2 = sawTooth(phi);
-    float g2 = exp(-(uv.x-0.9)*(uv.x-0.9)*20.0);
-    float p3 = sin(phi+M_PI)+0.5*0.5;
-    float g3 = exp(-(uv.x-1.5)*(uv.x-1.5)*20.0);
+    float angle = texture(phaseField, vec2(1.0-fragCoord.x, fragCoord.y) ).x;
+    
+    float p1 = 0.0;
+    float g1 = 0.0;
+    if (first){
+        p1 = PWM(phi, uv.x+0.2 *0.5);
+        g1 = exp(-(uv.x-0.2)*(uv.x-0.2)*20.0);
+    }
+
+    float p2 = 0.0;
+    float g2 = 0.0;
+    if (second){
+        p2 = sawTooth(phi);
+        g2 = exp(-(uv.x-0.4)*(uv.x-0.4)*20.0);
+    }
+    float p3 = 0.0;
+    float g3 = 0.0;
+
+    if (third){
+        p3 = sin(phi+M_PI)+0.5*0.5;
+        g3 = exp(-(uv.x-0.8)*(uv.x-0.8)*20.0);
+    }
+    float p4 = 0.0;
+    float g4 = 0.0;
+    
     vec3 phasorfield  = vec3(sin(phi)*0.3 +0.5);
     
-    float profile =p1*g1+p2*g2+p3*g3;
-    float sumGaus= g1+g2+g3;
+    float profile =p1*g1+p2*g2+p3*g3+p4*g4;
+    float sumGaus= g1+g2+g3+g4;
     
     phasorfield = vec3(profile/sumGaus);
     outColor = vec4(phasorfield,1.0);

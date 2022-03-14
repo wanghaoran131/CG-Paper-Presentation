@@ -28,6 +28,8 @@ DISABLE_WARNINGS_POP()
 #include <span>
 #include <vector>
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 extern "C"
 {
     __declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;
@@ -40,9 +42,12 @@ const int HEIGHT = 800;
 bool debug = false;
 bool phasorNoise = false;
 bool gaborNoise = false;
-bool debugPhasor = false;
 bool bufferA = false;
 bool phasor2 = false;
+bool first = false;
+bool second = false;
+bool third = false;
+bool fourth = false;
 int currentVar = 1;
 
 static void printHelp();
@@ -51,13 +56,6 @@ float f = 50.0f;
 float b = 30.0f;
 int ipk = 16.0f;
 
-float rx = 3.0f;
-float ry = 3.0f;
-
-float mx = 1.0f;
-float my = 1.0f;
-float mz = 1.0f;
-
 // Program entry point. Everything starts here.
 int main(int argc, char** argv)
 {
@@ -65,6 +63,7 @@ int main(int argc, char** argv)
 
     Window window { "Shading", glm::ivec2(WIDTH, HEIGHT), OpenGLVersion::GL45 };
     Trackball trackball { &window, glm::radians(50.0f) };
+    Trackball trackball2{ &window, glm::radians(50.0f) };
 
     const Mesh mesh = loadMesh(argc == 2 ? argv[1] : "resources/square.obj")[0];
 
@@ -77,10 +76,6 @@ int main(int argc, char** argv)
         switch (key) {
         case GLFW_KEY_0: {
             debug = !debug;
-            break;
-        }
-        case GLFW_KEY_8: {
-            debugPhasor = !debugPhasor;
             break;
         }
         case GLFW_KEY_9: {
@@ -99,8 +94,21 @@ int main(int argc, char** argv)
             phasor2 = !phasor2;
             break;
         }
+        case GLFW_KEY_5: {
+            first = !first;
+        }
+        case GLFW_KEY_6: {
+            second = !second;
+        }
+        case GLFW_KEY_7: {
+            third = !third;
+        }
+        case GLFW_KEY_8: {
+            fourth = !fourth;
+        }
         case GLFW_KEY_F: {
             currentVar = 2;
+            trackball2.disableTranslation();
             break;
         }
         case GLFW_KEY_B: {
@@ -125,26 +133,6 @@ int main(int argc, char** argv)
                 ipk += 1.0;
                 break;
             }
-            case 11: {
-                rx += 0.5;
-                break;
-            }
-            case 12: {
-                ry += 0.5;
-                break;
-            }
-            case 21: {
-                mx += 0.5;
-                break;
-            }
-            case 22: {
-                my += 0.5;
-                break;
-            }
-            case 23: {
-                mz += 0.5;
-                break;
-            }
             default:
                 return;
             };
@@ -162,26 +150,6 @@ int main(int argc, char** argv)
             }
             case 4: {
                 ipk -= 1.0;
-                break;
-            }
-            case 11: {
-                rx -= 0.5;
-                break;
-            }
-            case 12: {
-                ry -= 0.5;
-                break;
-            }
-            case 21: {
-                mx -= 0.5;
-                break;
-            }
-            case 22: {
-                my -= 0.5;
-                break;
-            }
-            case 23: {
-                mz -= 0.5;
                 break;
             }
             default:
@@ -252,9 +220,6 @@ int main(int argc, char** argv)
         if (gaborNoise) {
             std::cout << "GABOR NOISE!" << std::endl;
         }
-        if (debugPhasor) {
-            std::cout << "DEBUG PHASOR!" << std::endl;
-        }
         if (bufferA) {
             std::cout << "BUFFER A!" << std::endl;
         }
@@ -262,8 +227,6 @@ int main(int argc, char** argv)
         std::cout << "b = " << b << std::endl;
         std::cout << "ipk = " << ipk << std::endl;
         std::cout << "current var = " << currentVar << std::endl;
-        std::cout << "resolution = " << rx << ", " << ry << ", " << "1.0" << std::endl;
-        std::cout << "mouse = " << mx << ", " << my << ", " << mz  << "1.0" << std::endl;
         std::cout << "__________________" << std::endl;
         
     });
@@ -311,7 +274,7 @@ int main(int argc, char** argv)
     // this texture is from the screenshot png, that's the one giving nice result when applied to the phasor noise shader
 
 
-    // ---------------------------------------------------------- this is useful
+    
 
     GLuint framebufferTexture;     // actual texture
     glCreateTextures(GL_TEXTURE_2D, 1, &framebufferTexture);            // create a 2d texture for the framebufferTexture
@@ -323,14 +286,14 @@ int main(int argc, char** argv)
     GLuint fbo;     // frame buffer for the extra texture
     glCreateFramebuffers(1, &fbo);
     glNamedFramebufferTexture(fbo, GL_COLOR_ATTACHMENT0, framebufferTexture, 0);    // Atach this frame buffer to the texture
-    // ---------------------------------------------------------- end of useful
+    
 
     // Upload pixels into the GPU texture.
     glTextureSubImage2D(noiseTexture, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixelsNoiseTexture);
     // Free the CPU memory after we copied the image to the GPU.
     stbi_image_free(pixelsNoiseTexture);
 
-    stbi_uc* pixelsDog = stbi_load("resources/white_map.png", &width, &height, &sourceNumChannels, STBI_rgb);
+    stbi_uc* pixelsDog = stbi_load("resources/dog2.png", &width, &height, &sourceNumChannels, STBI_rgb);
     GLuint dogImage;
     glCreateTextures(GL_TEXTURE_2D, 1, &dogImage);
     glTextureStorage2D(dogImage, 1, GL_RGB8, width, height);
@@ -363,7 +326,7 @@ int main(int argc, char** argv)
     // Enable depth testing.
     glEnable(GL_DEPTH_TEST);
 
-    
+    const glm::mat4 oldView = trackball.viewMatrix();
 
     // Main loop.
     while (!window.shouldClose()) {
@@ -379,7 +342,7 @@ int main(int argc, char** argv)
         const glm::mat4 model { 1.0f };
         const glm::mat4 view = trackball.viewMatrix();
         const glm::mat4 projection = trackball.projectionMatrix();
-        const glm::mat4 mvp = projection * view * model;
+        glm::mat4 mvp = projection * view * model;
 
         bool renderedSomething = false;
         auto render = [&]() {
@@ -416,27 +379,47 @@ int main(int argc, char** argv)
 
                 // ------------------------------------------------- this is useful
 
-                glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+                
+                {
+                    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
-                glViewport(0, 0, window.getWindowSize().x, window.getWindowSize().y);
-                glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+                    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                    glViewport(0, 0, WIDTH, HEIGHT);
 
-                bufferAShader.bind();
+                    bufferAShader.bind();
 
-                //uniform vec3      iResolution;           // viewport resolution (in pixels)
-                //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
-                //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                //glm::vec3 placeholder3 = glm::vec3(rx, ry, 1.0f);
-                glm::vec3 ph2 = glm::vec3(3.0f, 3.0f, 3.0f);
-                glm::vec3 placeholder4 = glm::vec4(mx, my, mz, 1.0f);
-                glUniform3fv(10, 1, glm::value_ptr(ph2));
-                glUniform4fv(11, 1, glm::value_ptr(placeholder4));
-                glUniform1f(13, b);
-                glUniform1i(14, ipk);
-                render();
+                    //uniform vec3      iResolution;           // viewport resolution (in pixels)
+                    //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
+                    //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
+                    //glm::vec3 placeholder3 = glm::vec3(rx, ry, 1.0f);
+                    glm::vec3 ph2 = glm::vec3(1.0f, 1.0f, 1.0f);
+                    glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+                    glUniform3fv(10, 1, glm::value_ptr(ph2));
+                    glUniform4fv(11, 1, glm::value_ptr(placeholder4));
+                    glUniform1f(13, b);
+                    glUniform1i(14, ipk);
+                    glm::mat4 mvp2 = glm::mat4(-2.15, 0, 0, 0,
+                        0, 2.15, 0, 0,
+                        0, 0, 1, 1,
+                        -1.75, -3.86, 4, 4);
+                    //const glm::mat4 lightMVP = glm::mat4(-2.14451, 0, 0, 1.02936,
+                    //    0, 2.14451, 0, -1.0937,
+                    //    0, 0, 1.0002, 1.4803,
+                    //    0, 0, 1, 1); // this was kinda close to letting the existing cube fill the screen but not quite good
 
-                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                    //const glm::mat4 view2 = trackball2.viewMatrix();
+                    //glm::mat4 mvp2 = projection * view2 * model;
+                    glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(mvp2));
+
+                    // Bind vertex data. would be nicer to directly draw a quad in view space if i know how to open gl
+                    glBindVertexArray(vao);
+
+                    // Execute draw command to render the cube to the texture.
+                    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(mesh.triangles.size()) * 3, GL_UNSIGNED_INT, nullptr);
+
+                    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                }
                 // put the generated texture in a buffer to see
                 
                 /*
@@ -456,22 +439,29 @@ int main(int argc, char** argv)
                     phasorNoiseShader.bind();
 
                     // here we can use generated_texture
-                    //glActiveTexture(GL_TEXTURE0);
+                    glActiveTexture(GL_TEXTURE0);
                     // if I use noiseTexture (screenshot made previously from screen display) it gives a nice noise
-                    glBindTexture(GL_TEXTURE_2D, noiseTexture);
+                    //glBindTexture(GL_TEXTURE_2D, noiseTexture);
                     // if I use framebufferTexture (generated by buffer A) it gives shit
-                    //glBindTexture(GL_TEXTURE_2D, framebufferTexture);
+                    glBindTexture(GL_TEXTURE_2D, framebufferTexture);
                     glUniform1i(2, 0);
+                    glActiveTexture(GL_TEXTURE0+1);
+                    glBindTexture(GL_TEXTURE_2D, dogImage);
+                    glUniform1i(3, 1);
                     //uniform vec3      iResolution;           // viewport resolution (in pixels)
                     //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
                     //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    glm::vec3 placeholder3 = glm::vec3(rx, ry, 1.0f);
-                    glm::vec3 placeholder4 = glm::vec4(mx, my, mz, 1.0f);
+                    glm::vec3 placeholder3 = glm::vec3(1.0f, 1.0f, 1.0f);
+                    glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
                     glUniform3fv(10, 1, glm::value_ptr(placeholder3));
                     glUniform4fv(11, 1, glm::value_ptr(placeholder4));
                     glUniform1f(12, f);
-                    //glUniform1f(13, b);
+                    glUniform1f(13, b);
                     glUniform1i(14, ipk);
+                    glUniform1i(31, first);
+                    glUniform1i(32, second);
+                    glUniform1i(33, third);
+                    glUniform1i(34, fourth);
                     render();
                 }
 
@@ -490,8 +480,8 @@ int main(int argc, char** argv)
                     //uniform vec3      iResolution;           // viewport resolution (in pixels)
                     //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
                     //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    glm::vec3 placeholder3 = glm::vec3(rx, ry, 1.0f);
-                    glm::vec3 placeholder4 = glm::vec4(mx, my, mz, 1.0f);
+                    glm::vec3 placeholder3 = glm::vec3(1.0f, 1.0f, 1.0f);
+                    glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
                     glUniform3fv(10, 1, glm::value_ptr(placeholder3));
                     glUniform4fv(11, 1, glm::value_ptr(placeholder4));
                     glUniform1f(12, f);
@@ -512,32 +502,16 @@ int main(int argc, char** argv)
                     //uniform vec3      iResolution;           // viewport resolution (in pixels)
                     //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
                     //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    glm::vec3 resolution = glm::vec3(rx, ry, 1.0f);
-                    glm::vec3 mouse = glm::vec4(mx, my, mz, 1.0f);
-                    glUniform3fv(10, 1, glm::value_ptr(resolution));
-                    glUniform4fv(11, 1, glm::value_ptr(mouse));
+                    glm::vec3 placeholder3 = glm::vec3(1.0f, 1.0f, 1.0f);
+                    glm::vec3 placeholder4 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+                    glUniform3fv(10, 1, glm::value_ptr(placeholder3));
+                    glUniform4fv(11, 1, glm::value_ptr(placeholder4));
                     glUniform1f(12, f);
                     //glUniform1f(13, b);
                     //glUniform1i(14, ipk);
                     render();
                 }
-                if (debugPhasor) {
-                    phasorNoiseShader.bind();
-                    glActiveTexture(GL_TEXTURE0);
-                    glBindTexture(GL_TEXTURE_2D, dogImage);
-                    glUniform1i(2, 0);
-                    //uniform vec3      iResolution;           // viewport resolution (in pixels)
-                    //uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
-                    //uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
-                    glm::vec3 placeholder3 = glm::vec3(rx, ry, 1.0f);
-                    glm::vec3 placeholder4 = glm::vec4(mx, my, mz, 1.0f);
-                    glUniform3fv(10, 1, glm::value_ptr(placeholder3));
-                    glUniform4fv(11, 1, glm::value_ptr(placeholder4));
-                    glUniform1f(12, f);
-                    glUniform1f(13, b);
-                    glUniform1i(14, ipk);
-                    render();
-                }
+                
             }
             
 

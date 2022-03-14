@@ -104,8 +104,8 @@ void main()
   init_noise();
   float o = iMouse.x/iResolution.x * 2.0*M_PI;
   vec2 gaussian_field = vec2(eval_noise(uv,_b));
-  gaussian_field = normalize(gaussian_field);
+  //gaussian_field = normalize(gaussian_field);
   float angle = atan(gaussian_field.y,gaussian_field.x)/2.0/M_PI;
-  outColor = vec4(vec3(angle,angle, angle),1.0);
+  outColor = vec4(vec3(angle,angle, angle), max(0, -fragNormal.z));
   outColor1 = outColor;
 }
